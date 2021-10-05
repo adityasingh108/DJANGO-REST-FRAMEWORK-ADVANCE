@@ -3,6 +3,6 @@ from  . import views
 
 
 urlpatterns = [
-    path('StudentApi/',views.StudentApi),
-    path('StudentApi/<int:pk>',views.StudentApi),
+    path('StudentApi/',views.StudentApi.as_view()),
+    path('StudentApi/<int:pk>',views.StudentApi.as_view()),
 ]
