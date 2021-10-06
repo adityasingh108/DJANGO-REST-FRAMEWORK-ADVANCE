@@ -1,16 +1,63 @@
 from api.models import Student
 from .serializers import StudentSerializers
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework import serializers, viewsets
+from rest_framework.response import Response
+from rest_framework import status
 
 
-
-class StudentApiRetriveCreate(ListCreateAPIView):
-    queryset =Student.objects.all()
-    serializer_class = StudentSerializers
+class StudentViewset(viewsets.ViewSet):
+    def list(self,request):
+        stu = Student.objects.all()
+        serializer = StudentSerializers(stu,many=True)
+        return Response(serializer.data ,status=status.HTTP_200_OK)
     
-class StudentApiRetriveUpdateDestroy(RetrieveUpdateDestroyAPIView):
-    queryset =Student.objects.all()
-    serializer_class = StudentSerializers
+    def retrieve(self,request,pk=None):
+        id = pk
+        if id is not None:
+            stu = Student.objects.get(id=id)
+            serializers = StudentSerializers(stu)
+            return Response(serializers.data ,status=status.HTTP_200_OK)
+        
+        
+    def create(self ,request):
+        serializers =StudentSerializers(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response({'Success':'Data has been created'} ,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors)
+    
+
+                
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class StudentApiRetriveCreate(ListCreateAPIView):
+#     queryset =Student.objects.all()
+#     serializer_class = StudentSerializers
+    
+# class StudentApiRetriveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+#     queryset =Student.objects.all()
+#     serializer_class = StudentSerializers
         
  
 
