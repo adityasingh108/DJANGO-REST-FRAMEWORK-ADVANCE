@@ -1,36 +1,43 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
 from api.models import Student
 from .serializers import StudentSerializers
-from rest_framework.mixins import DestroyModelMixin, ListModelMixin,CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+
+
+
+class StudentApiRetriveCreate(ListCreateAPIView):
+    queryset =Student.objects.all()
+    serializer_class = StudentSerializers
+    
+class StudentApiRetriveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    queryset =Student.objects.all()
+    serializer_class = StudentSerializers
+        
  
 
 
 
-class StudentApi(ListModelMixin,CreateModelMixin, GenericAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializers
+# class StudentApi(ListModelMixin,CreateModelMixin, GenericAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializers
     
-    def get(self,request,*args, **kwargs):
-        return self.list(request,*args, **kwargs)
+#     def get(self,request,*args, **kwargs):
+#         return self.list(request,*args, **kwargs)
     
-    def post(self,request,*args, **kwargs):
-        return self.create(request ,*args, **kwargs) 
+#     def post(self,request,*args, **kwargs):
+#         return self.create(request ,*args, **kwargs) 
     
-class StudentApiRDU(RetrieveModelMixin,DestroyModelMixin,UpdateModelMixin, GenericAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializers
+# class StudentApiRDU(RetrieveModelMixin,DestroyModelMixin,UpdateModelMixin, GenericAPIView):
+#     queryset = Student.objects.all()
+    # serializer_class = StudentSerializers
     
-    def get(self,request,*args, **kwargs):
-        return self.retrieve(request,*args, **kwargs) 
+    # def get(self,request,*args, **kwargs):
+    #     return self.retrieve(request,*args, **kwargs) 
     
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs) 
+    # def delete(self, request, *args, **kwargs):
+    #     return self.destroy(request, *args, **kwargs) 
     
-    def put(self,request,*args, **kwargs):
-        return self.update(request,*args,**kwargs) 
+    # def put(self,request,*args, **kwargs):
+    #     return self.update(request,*args,**kwargs) 
     
     
 
